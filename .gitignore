@@ -1,15 +1,105 @@
+############################################
+# IDE / Editor
+############################################
 .vs/
 .idea/
 .vscode/
+*.code-workspace
 
-out/
-build/
+############################################
+# OS / temp
+############################################
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+*.swo
+*.tmp
+*.temp
+*.bak
 
-/bin/
-
+############################################
+# Logs
+############################################
 *.log
 
-*.swp
-
+############################################
+# Build folders (CMake / Ninja / VS)
+############################################
+out/
+build/
+cmake-build-*/
 CMakeCache.txt
 CMakeFiles/
+CTestTestfile.cmake
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+.ninja_deps
+.ninja_log
+Testing/
+
+############################################
+# Visual Studio / MSVC build artifacts
+############################################
+Debug/
+Release/
+x64/
+x86/
+ipch/
+*.obj
+*.pdb
+*.idb
+*.ilk
+*.pch
+*.tlog
+*.log
+*.lastbuildstate
+*.VC.db
+*.VC.VC.opendb
+*.sdf
+*.opensdf
+*.user
+*.suo
+*.cache
+
+############################################
+# Binaries
+############################################
+bin/
+*.exe
+*.dll
+*.lib
+*.exp
+
+############################################
+# llama.cpp local builds
+############################################
+llama.cpp/build/
+llama.cpp/out/
+llama.cpp/bin/
+llama.cpp/*.exe
+llama.cpp/*.dll
+llama.cpp/*.lib
+llama.cpp/*.pdb
+llama.cpp/*.ilk
+
+############################################
+# Large model files (DO NOT COMMIT)
+############################################
+models/
+*.gguf
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.onnx
+
+############################################
+# Caches / downloads
+############################################
+.cache/
+_cache/
+downloads/
+tmp/
+temp/
