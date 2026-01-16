@@ -1,8 +1,15 @@
-/build/
+.vs/
+.idea/
+.vscode/
+
+out/
+build/
+
 /bin/
 
 *.log
 
 *.swp
-.idea/
-.vscode/
+
+CMakeCache.txt
+CMakeFiles/

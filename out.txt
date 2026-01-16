@@ -1,0 +1,55 @@
+
+Loading model... 
+
+
+▄▄ ▄▄
+██ ██
+██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄
+██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██
+██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀
+                                    ██    ██
+                                    ▀▀    ▀▀
+
+build      : b7740-cff777f22
+model      : mistral-7b-instruct-v0.2.Q4_0.gguf
+modalities : text
+
+available commands:
+  /exit or Ctrl+C     stop or exit
+  /regen              regenerate the last response
+  /clear              clear the chat history
+  /read               add a text file
+
+
+> Write a 6-sentence story for a 7-year-old about a friendly dragon.
+Use simple vocabulary. Give a title.
+
+ Title: The Kind Dragon
+
+1. Once upon a time, in a magical land, lived a friendly dragon named Dax.
+2. Dax had big, shiny scales and gentle eyes that sparkled like stars.
+3. He loved to play with children and make them laugh with his funny sneezes.
+4. One day, a little girl named Lily was lost in the forest. Dax found her and kept her safe.
+5. Together, they flew over the treetops, enjoying the view of the beautiful land below.
+6. From that day on, Lily visited Dax every week, and they became the best of friends.
+
+[ Prompt: 30.2 t/s | Generation: 10.2 t/s ]
+
+> 
+
+> 
+
+> 
+
+> 
+
+> 
+
+> 
+
+> 
+
+> 
+
+Exiting...
+[0m
