@@ -1,210 +1,231 @@
-README — StoryGen (P1RV Sujet 9 : Génération d'histoires C++ / SLM)
+# StoryGen — P1RV Sujet 9 (Génération d’histoires C++ / SLM)
 
+> **CLI C++ (Windows)** pour lancer un **SLM local** via **llama.cpp** (`llama-cli.exe`) et générer une histoire à partir d’un prompt.
 
+---
 
-1\. Objectif
+## 1) Objectif
 
-&nbsp;  Ce projet fournit une CLI C++ (storygen.exe) qui lance un Small Language Model (SLM) en local via llama.cpp (llama-cli.exe) afin de générer une histoire à partir d’un prompt (fichier texte), avec des paramètres de génération configurables.
+Ce projet fournit une **CLI C++** (`storygen.exe`) qui lance un **Small Language Model (SLM)** en local via **llama.cpp** (`llama-cli.exe`) afin de générer une histoire à partir d’un **prompt** (fichier texte).  
+Les paramètres de génération sont configurables via la ligne de commande.
 
+- **Plateforme :** Windows  
+- **Langage :** C++  
+- **Backend :** llama.cpp (`llama-cli.exe`)  
+- **Modèles :** format **GGUF** (ex : Mistral 7B Instruct quantifié)
 
+---
 
-\* Plateforme : Windows
+## 2) Structure du dépôt
 
-\* Langage : C++
+Arborescence typique :
 
-\* Backend : llama.cpp (llama-cli.exe)
+- `app/` : code C++ (ex : `main.cpp`)
+- `CMakeLists.txt` : build de `storygen`
+- `llama.cpp/` : submodule llama.cpp
+- `models/` : modèles GGUF (**non inclus** dans le zip, trop volumineux)
+- `prompt.txt` : prompt d’entrée
+- `out/` : répertoires de build générés (à ne pas versionner)
 
-\* Modèles : GGUF (ex : Mistral 7B Instruct Q4)
+---
 
+## 3) Prérequis (Windows)
 
+- **Visual Studio 2022** (workload **Desktop development with C++**)
+- **CMake** (via Visual Studio ou installé séparément)
+- **Ninja** (recommandé ; peut être fourni par VS)
+- **Git** (si récupération avec submodule)
+- Architecture : **x64 obligatoire** (évite les erreurs mémoire / link en x86)
 
-2\. Structure du dépôt
+---
 
-&nbsp;  P1RV/
+## 4) Récupération (avec submodule llama.cpp)
 
+```bash
+git submodule update --init --recursive
+```
 
+---
 
-\* app/            (code C++ : main.cpp)
+## 5) Modèle GGUF (à placer dans `models/`)
 
-\* CMakeLists.txt  (build de storygen)
+Le modèle n’est **pas inclus** dans le dépôt / zip (taille trop importante).  
+Télécharge un modèle **GGUF** compatible llama.cpp et place-le dans `models/`.
 
-\* llama.cpp/      (submodule llama.cpp)
+### Liens utiles (Hugging Face)
 
-\* models/         (modèles GGUF, non inclus dans le zip)
+- Modèle “officiel” (base Instruct) :  
+  https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2
+- GGUF prêt pour llama.cpp (ex : Q4_0, Q5_K_M, etc.) :  
+  https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF
 
-\* prompt.txt      (prompt d’entrée)
+### Exemple utilisé
 
-\* out/            (répertoires de build générés)
+- Fichier : `mistral-7b-instruct-v0.2.Q4_0.gguf`
+- Chemin recommandé :
+  - `P1RV\models\mistral-7b-instruct-v0.2.Q4_0.gguf`
 
+---
 
+## 6) Build de llama.cpp (pour obtenir `llama-cli.exe`)
 
-3\. Prérequis (Windows)
+> **Recommandé :** build Visual Studio + `-A x64` (robuste, évite les mélanges x86/x64)
 
+### Option A — Générateur Visual Studio (x64)
 
+```bash
+rmdir /s /q llama.cpp\build
+cmake -S llama.cpp -B llama.cpp\build -G "Visual Studio 17 2022" -A x64
+cmake --build llama.cpp\build --config Release
+```
 
-\* Visual Studio 2022 (Desktop development with C++)
+Binaire attendu :
+- `P1RV\llama.cpp\build\bin\Release\llama-cli.exe`
 
-\* CMake (via VS ou installé séparément)
+⚠️ Important : `llama-cli.exe` doit rester dans le même dossier que ses DLL `ggml-*.dll` (sinon erreurs de backend).
 
-\* Ninja (recommandé, via VS possible)
+### Option B — Ninja (si terminal x64 VS)
 
-\* Git (si récupération avec submodule)
+```bash
+rmdir /s /q llama.cpp\build
+cmake -S llama.cpp -B llama.cpp\build -G Ninja -DCMAKE_BUILD_TYPE=Release
+cmake --build llama.cpp\build
+```
 
+---
 
+## 7) Build de StoryGen (CLI C++)
 
-4\. Récupération du submodule llama.cpp (si nécessaire)
+### Option A — Visual Studio (x64, recommandé)
 
-&nbsp;  Depuis la racine P1RV :
-
-&nbsp;  git submodule update --init --recursive
-
-
-
-5\. Modèle GGUF (à placer dans models/)
-
-&nbsp;  Le modèle n’est pas inclus dans le zip (taille trop importante).
-
-
-
-Exemple utilisé :
-
-mistral-7b-instruct-v0.2.Q4\_0.gguf
-
-
-
-À placer ici :
-
-P1RV\\models\\mistral-7b-instruct-v0.2.Q4\_0.gguf
-
-
-
-Remarque : la CLI accepte aussi --model <chemin> pour utiliser un autre GGUF.
-
-
-
-6\. Build de llama.cpp (pour obtenir llama-cli.exe)
-
-&nbsp;  Depuis la racine P1RV :
-
-&nbsp;  cmake -S llama.cpp -B llama.cpp\\build -G Ninja -DCMAKE\_BUILD\_TYPE=Release
-
-&nbsp;  cmake --build llama.cpp\\build
-
-
-
-Le binaire attendu (selon config) :
-
-P1RV\\llama.cpp\\build\\bin\\Release\\llama-cli.exe
-
-
-
-7\. Build de storygen (CLI C++)
-
-&nbsp;  Depuis la racine P1RV :
-
-
+```bash
+rmdir /s /q out
+cmake -S . -B out\vs-x64 -G "Visual Studio 17 2022" -A x64
+cmake --build out\vs-x64 --config Release
+```
+
+Binaire attendu :
+- `out\vs-x64\Release\storygen.exe`
+
+### Option B — Ninja (si terminal x64 VS)
 
 Debug :
 
-cmake -S . -B out\\build\\x64-Debug -G Ninja -DCMAKE\_BUILD\_TYPE=Debug
-
-cmake --build out\\build\\x64-Debug
-
-
+```bash
+cmake -S . -B out\build\x64-Debug -G Ninja -DCMAKE_BUILD_TYPE=Debug
+cmake --build out\build\x64-Debug
+```
 
 Release :
 
-cmake -S . -B out\\build\\x64-Release -G Ninja -DCMAKE\_BUILD\_TYPE=Release
+```bash
+cmake -S . -B out\build\x64-Release -G Ninja -DCMAKE_BUILD_TYPE=Release
+cmake --build out\build\x64-Release
+```
 
-cmake --build out\\build\\x64-Release
+---
 
+## 8) Quick start (copier-coller)
 
+1) Build llama.cpp (Release, x64) :
 
-8\. Exécution (démo live)
+```bash
+cmake -S llama.cpp -B llama.cpp\build -G "Visual Studio 17 2022" -A x64
+cmake --build llama.cpp\build --config Release
+```
 
-&nbsp;  Démo simple + logs :
+2) Build storygen (Release, x64) :
 
-&nbsp;  out\\build\\x64-Release\\storygen.exe --verbose
+```bash
+cmake -S . -B out\vs-x64 -G "Visual Studio 17 2022" -A x64
+cmake --build out\vs-x64 --config Release
+```
 
+3) Exécution (démo) :
 
+```bash
+out\vs-x64\Release\storygen.exe --verbose
+```
 
-Paramètres (exemples) :
+---
 
-out\\build\\x64-Release\\storygen.exe -n 300 -t 0.9 -p 0.95 -s 123 --verbose
+## 9) Exécution (démo)
 
+Démo simple + logs :
 
+```bash
+storygen.exe --verbose
+```
+
+Exemples de paramètres :
+
+```bash
+storygen.exe -n 300 -t 0.9 -p 0.95 -s 123 --verbose
+```
 
 Écrire la sortie dans un fichier :
 
-out\\build\\x64-Release\\storygen.exe --out out.txt
+```bash
+storygen.exe --out out.txt
+```
 
+---
 
+## 10) Options CLI (selon implémentation)
 
-9\. Options CLI
+- `-h`, `--help` : affiche l’aide
+- `-m`, `--model <path>` : chemin du modèle GGUF
+- `-f`, `--prompt <path>` : chemin du fichier prompt
+- `-n`, `--n-predict <int>` : nombre de tokens à générer
+- `-s`, `--seed <int>` : seed (reproductibilité)
+- `-t`, `--temp <float>` : température (créativité)
+- `-p`, `--top-p <float>` : top-p (nucleus sampling)
+- `--verbose` : affiche chemins résolus + commande exécutée
+- `--out <path>` : écrit stdout/stderr dans un fichier
+- `--single-turn` : 1 prompt → 1 réponse → exit (évite le mode interactif)
 
+---
 
+## 11) Prompt d’exemple
 
-\* -h, --help : affiche l’aide
+Le fichier `prompt.txt` contient un prompt simple.
 
-\* -m, --model <path> : chemin du modèle GGUF
+Exécution attendue :
+- chargement du modèle
+- génération du texte
+- fin propre (`Exiting...`)
 
-\* -f, --prompt <path> : chemin du fichier prompt
+---
 
-\* -n, --n-predict <int> : nombre de tokens à générer
+## 12) Dépannage rapide
 
-\* -s, --seed <int> : seed (reproductibilité)
+### A) `load_backend: failed to find ggml_backend_init ... ggml-cpu.dll`
+Cause fréquente : mismatch entre `llama-cli.exe` et `ggml-*.dll` (copies partielles, mélange Debug/Release).
 
-\* -t, --temp <float> : température (créativité)
+✅ Fix :
+- garder `llama-cli.exe` **avec** ses `ggml-*.dll` dans le même dossier
+- clean rebuild llama.cpp en Release
 
-\* -p, --top-p <float> : top-p (noyau de probas)
+### B) `ggml_backend_cpu_buffer_type_alloc_buffer: failed to allocate buffer ...`
+Cause : mémoire insuffisante / contexte trop grand / ou exécution en x86.
 
-\* --verbose : affiche les chemins résolus + la commande exécutée
+✅ Fix :
+- s’assurer d’être en **x64**
+- réduire les paramètres gourmands si exposés (contexte/batch)
+- vérifier que la mémoire virtuelle Windows (pagefile) est activée et assez grande
 
-\* --out <path> : écrit stdout/stderr dans un fichier
+### C) Erreurs LNK / conflits x86-x64
+Cause : build incohérent (x86 vs x64) ou cache CMake réutilisé.
 
-\* --single-turn : (par défaut) 1 prompt → 1 réponse → exit
+✅ Fix :
+- supprimer complètement les dossiers de build (`out/`, `llama.cpp\build\`)
+- régénérer avec `-A x64`
+- rebuild propre
 
+---
 
+## 13) Crédits
 
-10\. Prompt d’exemple
-
-&nbsp;   Le fichier prompt.txt contient un prompt simple.
-
-&nbsp;   Exécution attendue : chargement du modèle, génération du texte, puis fin propre (Exiting...).
-
-
-
-11\. Dépannage rapide
-
-
-
-12\. “llama-cli introuvable”
-
-&nbsp;   Vérifier :
-
-&nbsp;   P1RV\\llama.cpp\\build\\bin\\Release\\llama-cli.exe
-
-&nbsp;   Sinon recompiler llama.cpp en Release.
-
-
-
-13\. “modèle introuvable”
-
-&nbsp;   Vérifier la présence du .gguf dans models/ ou lancer :
-
-&nbsp;   storygen.exe --model "C:...\\monmodele.gguf"
-
-
-
-14\. Le programme ne se termine pas
-
-&nbsp;   Assurer le mode single-turn (par défaut). Si modifié, relancer avec --single-turn.
-
-
-
-15\. Problèmes x86/x64 (link / libs)
-
-&nbsp;   Utiliser un terminal “Developer PowerShell for VS 2022” et vérifier la toolchain cible x64.
-
-
+- Backend : **llama.cpp** (submodule)
+- Modèle : **Mistral 7B Instruct v0.2** (téléchargé séparément en GGUF)
 
