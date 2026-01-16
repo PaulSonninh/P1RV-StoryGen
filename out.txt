@@ -31,25 +31,11 @@ Use simple vocabulary. Give a title.
 3. He loved to play with children and make them laugh with his funny sneezes.
 4. One day, a little girl named Lily was lost in the forest. Dax found her and kept her safe.
 5. Together, they flew over the treetops, enjoying the view of the beautiful land below.
-6. From that day on, Lily visited Dax every week, and they became the best of friends.
+6. From that day on, Lily visited Dax every week, and they became the best of friends.llama_memory_breakdown_print: | memory breakdown [MiB] | total   free    self   model   context   compute    unaccounted |
+llama_memory_breakdown_print: |   - Host               |                 4425 =   173 +    4096 +     156                |
+llama_memory_breakdown_print: |   - CPU_REPACK         |                 3744 =  3744 +       0 +       0                |
 
-[ Prompt: 30.2 t/s | Generation: 10.2 t/s ]
 
-> 
-
-> 
-
-> 
-
-> 
-
-> 
-
-> 
-
-> 
-
-> 
+[ Prompt: 29.9 t/s | Generation: 10.4 t/s ]
 
 Exiting...
-[0m
